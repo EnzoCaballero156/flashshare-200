@@ -7,10 +7,7 @@ export default function App() {
   const [currentRoomData, setCurrentRoomData] = useState(null);
 
   const handleJoinSuccess = (data) => {
-    setCurrentRoomData({
-      ...data,
-      isHost: data.is_host ?? false
-    });
+    setCurrentRoomData(data);
   };
 
   const handleLeaveRoom = () => {

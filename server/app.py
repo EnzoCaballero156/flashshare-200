@@ -1,8 +1,9 @@
 from flask import Flask, request, session, jsonify, url_for, send_from_directory
-from flask_socketio import join_room, leave_room, send, SocketIO
+from flask_socketio import join_room, leave_room, close_room, SocketIO
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import random
+import time
 import os
 
 app = Flask(__name__) 
@@ -58,8 +59,10 @@ def join():
         "message": "Te uniste a la sala.", 
         "room": code, 
         "roomName": rooms[code]["name"],
-        "is_host": False,
-        "host": rooms[code]["host"]
+        "isHost": False,
+        "host": rooms[code]["host"],
+        "members": rooms[code]["members"],
+        "expiresAt": rooms[code]["expiresAt"]
     })
 
 # Ruta para crear la sala
@@ -76,13 +79,14 @@ def create_room():
         return jsonify({"error": "Ingrese un nombre de sala."}), 401
 
     room = generate_code()
-    # Guardamos quién es el host (anfitrión) oficial de la sala
+
     rooms[room] = {
         "name": room_name, 
         "host": username,
-        "members": 0, 
+        "members": [], 
         "messages": [], 
-        "files": []
+        "files": [],
+        "expiresAt": time.time() + 3600
     }
 
     session["room"] = room
@@ -92,8 +96,10 @@ def create_room():
         "message": "Sala creada.", 
         "room": room, 
         "roomName": rooms[room]["name"],
-        "is_host": True,
-        "host": username
+        "isHost": True,
+        "host": username,
+        "members": rooms[room]["members"],
+        "expiresAt": rooms[room]["expiresAt"]
     })
 
 # Ruta para obtener los archivos de la sala
@@ -132,7 +138,7 @@ def message(data):
         filedata = file.get("data")
 
         if filename and filedata:
-            safe_name = f"{str(random.randint(0, 57000))}_{secure_filename(filename)}"
+            safe_name = f"{room}R_{str(random.randint(0, 57000))}_{secure_filename(filename)}"
             path = os.path.join(UPLOAD_FOLDER, safe_name)
 
             with open(path, "wb") as f:
@@ -170,11 +176,39 @@ def on_join(data):
             "message": "entró a la sala.",
             "files": []
         }
+
         rooms[room]["messages"].append(join_msg)
+        rooms[room]["members"].append(username)
+        session["room"] = room
+        session["username"] = username
         socketio.emit("message", join_msg, to=room)
 
 @socketio.on("disconnect")
 def disconnect():
+    room = session.get("room")
+    username = session.get("username")
+
+    if not room or room not in rooms:
+        return
+
+    if rooms[room]["host"] == username:
+        socketio.emit("close_room", to=room, include_self=False)
+        close_room(room)
+        for nombre in os.listdir(UPLOAD_FOLDER):
+            if f"{room}R" in nombre: os.remove(os.path.join(UPLOAD_FOLDER, nombre))
+        del rooms[room]
+    else:
+        leave_msg = {
+            "username": username,
+            "message": "se retiró de la sala.",
+            "files": []
+        }
+
+        rooms[room]["messages"].append(leave_msg)
+        rooms[room]["members"].remove(username)
+        socketio.emit("message", leave_msg, to=room)
+        leave_room(room)
+
     print("Un usuario se desconectó del socket")
 
 if __name__ == "__main__":

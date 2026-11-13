@@ -10,7 +10,7 @@ export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick }) {
   // Estado para crear sala
   const [createRoomName, setCreateRoomName] = useState('');
   const [createUsername, setCreateUsername] = useState('');
-  const [duration, setDuration] = useState('1h');
+  // const [duration, setDuration] = useState('1h');
 
   const [errorMsg, setErrorMsg] = useState('');
   const inputRefs = useRef([]);
@@ -33,7 +33,26 @@ export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick }) {
     }
   };
 
-  // Petición HTTP: Unirse a sala
+  const handlePaste = (e) => {
+    e.preventDefault();
+
+    const pastedDigits = e.clipboardData
+      .getData('text')
+      .replace(/\D/g, '')
+      .slice(0, 6);
+
+    if (!pastedDigits) return;
+
+    const newCode = [...joinCode];
+    for (let i = 0; i < pastedDigits.length; i++) {
+      newCode[i] = pastedDigits[i];
+    }
+    setJoinCode(newCode);
+
+    const nextIndex = Math.min(pastedDigits.length, 5);
+    inputRefs.current[nextIndex]?.focus();
+  };
+
   const handleJoinRoom = async (e) => {
     e.preventDefault();
     setErrorMsg('');
@@ -48,7 +67,11 @@ export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick }) {
       onJoinSuccess({
         room: response.data.room,
         roomName: response.data.roomName,
-        username: joinUsername
+        username: joinUsername,
+        isHost: response.data.isHost,
+        host: response.data.host,
+        members: response.data.members,
+        expiresAt: response.data.expiresAt
       });
     } catch (err) {
       setErrorMsg(err.response?.data?.error || 'Error al intentar unirse');
@@ -69,7 +92,11 @@ export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick }) {
       onJoinSuccess({
         room: response.data.room,
         roomName: response.data.roomName,
-        username: createUsername
+        username: createUsername,
+        isHost: response.data.isHost,
+        host: response.data.host,
+        members: response.data.members,
+        expiresAt: response.data.expiresAt
       });
     } catch (err) {
       setErrorMsg(err.response?.data?.error || 'Error al crear sala');
@@ -78,7 +105,6 @@ export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick }) {
 
   return (
     <div className="home-page">
-      {/* Header */}
       <header className="home-header">
         <strong className="brand-name">FlashShare 200</strong>
         <div className="header-actions">
@@ -92,7 +118,6 @@ export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick }) {
       </header>
 
       <div className="home-container">
-        {/* Hero */}
         <section className="hero-section">
           <h1 className="hero-title">
             Compartir debería ser<br />así de sencillo.
@@ -104,9 +129,7 @@ export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick }) {
 
         {errorMsg && <div className="error-toast">{errorMsg}</div>}
 
-        {/* Tarjetas */}
         <div className="cards-wrapper">
-          {/* Card: Crear */}
           <div className="card-box">
             <h2>Crea tu propia sala</h2>
             <p className="card-desc">
@@ -132,7 +155,7 @@ export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick }) {
                 onChange={(e) => setCreateUsername(e.target.value)}
               />
 
-              <label className="input-label">Duración de la sala</label>
+              {/* <label className="input-label">Duración de la sala</label>
               <div className="duration-selector">
                 {[
                   { value: '30m', label: '30 min' },
@@ -148,7 +171,7 @@ export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick }) {
                     {opt.label}
                   </button>
                 ))}
-              </div>
+              </div> */}
 
               <button type="submit" className="btn-primary">Crear sala</button>
             </form>
@@ -173,6 +196,7 @@ export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick }) {
                     ref={(el) => (inputRefs.current[idx] = el)}
                     onChange={(e) => handleDigitChange(idx, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(idx, e)}
+                    onPaste={handlePaste}
                     className="code-box"
                   />
                 ))}
@@ -190,11 +214,6 @@ export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick }) {
               <button type="submit" className="btn-primary">Unirse a sala</button>
             </form>
           </div>
-        </div>
-
-        {/* Features */}
-        <div className="features-header">
-          <span>🕒 Compartir sin vueltas</span>
         </div>
 
         <div className="features-grid">
@@ -216,7 +235,7 @@ export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick }) {
         </div>
 
         <footer className="home-footer">
-          FlashShare 200 - Proyecto académico - 2026
+          FlashShare 200 | 2026
         </footer>
       </div>
     </div>

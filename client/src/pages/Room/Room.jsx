@@ -94,19 +94,19 @@ function FileBadge({ file, big }) {
 
 /* ---------- Componente ---------- */
 export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick }) {
-  const { room, roomName, username, isHost, host } = roomData;
+  const { room, roomName, username, isHost, host, members, expiresAt } = roomData;
 
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [activeTab, setActiveTab] = useState('files');
   const [uploadedFiles, setUploadedFiles] = useState([]);
-  const [roomMembers, setRoomMembers] = useState([username]);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [roomMembers, setRoomMembers] = useState(members && members.length > 0 ? members : [username]);
   const [copied, setCopied] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('todos');
-  const [timeLeft, setTimeLeft] = useState(3600);
+  const [timeLeft, setTimeLeft] = useState(expiresAt ? Math.max(0, Math.floor(expiresAt - (Date.now() / 1000))) : 3600);
 
   const [showSidebar, setShowSidebar] = useState(true);
   const [showCode, setShowCode] = useState(false);
@@ -161,8 +161,14 @@ export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick 
       }
     });
 
+    socket.on('close_room', () => {
+      alert("El host cerró la sala.")
+      window.location.href = "/"
+    })
+
     return () => {
       socket.off('message');
+      socket.off('close_room')
       socket.disconnect();
     };
   }, [room, username]);
@@ -309,7 +315,7 @@ export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick 
               >
                 Archivos
               </button>
-              <button type="button" className="btn-bar danger" onClick={() => setShowCloseModal(true)}>
+              <button type="button" className="btn-bar danger" onClick={() => (username === host || isHost) ? setShowCloseModal(true) : onLeave()}>
                 Cerrar chat
               </button>
             </div>
