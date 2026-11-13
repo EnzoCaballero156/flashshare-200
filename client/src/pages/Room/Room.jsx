@@ -3,9 +3,6 @@ import { socket } from '../../services/socket';
 import api from '../../services/api';
 import './Room.css';
 
-const API_URL = 'http://127.0.0.1:5000';
-
-/* ---------- Helpers de archivos ---------- */
 const getExt = (f) => {
   if (f.name && f.name.includes('.')) return f.name.split('.').pop().toLowerCase();
   return f.type ? String(f.type).toLowerCase() : '';
@@ -131,7 +128,7 @@ export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick 
 
   useEffect(() => {
     socket.connect();
-
+    console.log(`sala: ${room} | usuario: ${username}`)
     socket.on('connect', () => {
       socket.emit('join_room', { room, username });
       fetchRoomFiles();
@@ -167,6 +164,7 @@ export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick 
     })
 
     return () => {
+      socket.off('connect')
       socket.off('message');
       socket.off('close_room')
       socket.disconnect();
@@ -352,7 +350,7 @@ export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick 
                         {msg.files && msg.files.map((f, i) => (
                           <div key={i} className="file-card">
                             <a
-                              href={`${API_URL}${f.url}`}
+                              href={f.url}
                               download
                               className="file-card-download"
                               title="Descargar"
@@ -466,7 +464,7 @@ export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick 
                                 {meta && <span className="file-meta">{meta}</span>}
                               </div>
                               <a
-                                href={`${API_URL}${f.url}`}
+                                href={f.url}
                                 download
                                 className="btn-download"
                                 title="Descargar"
