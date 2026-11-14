@@ -21,19 +21,13 @@ class MessageService:
         if not username or not room_code or (not content and not uploaded):
             raise Exception("Datos incompletos.")
 
-        print("datos completos jajejwiejiawje", username, room_code, content, uploaded)
-
         room = self.room_repository.find_by_code(room_code)
 
         if room is None:
             raise Exception("La sala no existe.")
 
-        print("la sala si existe calajo")
-
         files = []
         files_data = []
-
-        print("se generaron las listas?")
 
         for file in uploaded:
             print("pasamos al for")
@@ -53,8 +47,6 @@ class MessageService:
                 )   
     
                 res_type = upload.get("resource_type")
-
-                print(res_type)
     
                 if res_type == "raw":
                     url = upload.get("secure_url")
@@ -81,14 +73,6 @@ class MessageService:
 
         new_message = Message(user=username, content=content, room=room)
         if files_data: new_message.files = files_data
-
-        try:
-            self.message_repository.save(new_message)
-        except Exception as e:
-            print("error:", repr(e))
-            raise e
-
-        print("salio muchchcos??????")
-        print(files)
+        self.message_repository.save(new_message)
 
         return files

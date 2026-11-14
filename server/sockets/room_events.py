@@ -11,10 +11,7 @@ from services.room_service import RoomService
 
 from flask import session, request
 from flask_socketio import join_room, leave_room, close_room
-from werkzeug.utils import secure_filename
 
-import cloudinary.utils
-import cloudinary.uploader
 import cloudinary.api
 
 message_repository = MessageRepository()
@@ -34,8 +31,6 @@ def message(data):
     content = data.get("data", "")
     uploaded = data.get("files", [])
 
-    print(f"contenido del mensaje: {content}")
-
     try:    
         files = message_service.send(username, room, content, uploaded)
 
@@ -54,13 +49,11 @@ def message(data):
 def on_join(data):
     room = data.get("room")
     username = data.get("username")
-    print(" se imprimio bien aca en el socket,", room, username)
+
     try:
-        print("vamos a hacer room member service join a ver que tal")
         message = room_member_service.join(username, room)
         join_room(room)
 
-        print("hasta aca bacan en join room")
         join_msg = {
             "username": message.user,
             "message": message.content,

@@ -1,13 +1,14 @@
 import React, { useState, useRef } from 'react';
 import api from '../../services/api';
 import './Home.css';
+import { useSession } from '../../context/SessionContext';
 
-export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick }) {
-  // Estado para unirse a sala
+export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick, onLogoutClick }) {
+  const { user, setUser } = useSession()
+
   const [joinCode, setJoinCode] = useState(['', '', '', '', '', '']);
   const [joinUsername, setJoinUsername] = useState('');
 
-  // Estado para crear sala
   const [createRoomName, setCreateRoomName] = useState('');
   const [createUsername, setCreateUsername] = useState('');
   // const [duration, setDuration] = useState('1h');
@@ -15,7 +16,6 @@ export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick }) {
   const [errorMsg, setErrorMsg] = useState('');
   const inputRefs = useRef([]);
 
-  // Manejo de inputs de 6 dígitos
   const handleDigitChange = (index, value) => {
     if (value.length > 1) value = value[value.length - 1];
     const newCode = [...joinCode];
@@ -59,7 +59,7 @@ export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick }) {
     const fullCode = joinCode.join('');
 
     try {
-      const response = await api.post('/', {
+      const response = await api.post('/api/room/', {
         username: joinUsername,
         code: fullCode
       });
@@ -78,13 +78,12 @@ export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick }) {
     }
   };
 
-  // Petición HTTP: Crear sala
   const handleCreateRoom = async (e) => {
     e.preventDefault();
     setErrorMsg('');
 
     try {
-      const response = await api.post('/create', {
+      const response = await api.post('/api/room/create', {
         username: createUsername,
         roomName: createRoomName
       });
@@ -108,12 +107,19 @@ export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick }) {
       <header className="home-header">
         <strong className="brand-name">FlashShare 200</strong>
         <div className="header-actions">
-          <button type="button" className="btn-outline" onClick={onLoginClick}>
-            Iniciar sesión
-          </button>
-          <button type="button" className="btn-outline" onClick={onRegisterClick}>
-            Crear cuenta
-          </button>
+          {user && user != null ? (<>
+            <p>{user.email}</p>
+            <button type="button" className="btn-outline" onClick={onLogoutClick}>
+              Cerrar sesión
+            </button>
+          </>) : (<>
+            <button type="button" className="btn-outline" onClick={onLoginClick}>
+              Iniciar sesión
+            </button>
+            <button type="button" className="btn-outline" onClick={onRegisterClick}>
+              Crear cuenta
+            </button>
+          </>)}
         </div>
       </header>
 

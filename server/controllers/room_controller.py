@@ -14,15 +14,12 @@ def join():
     username = data.get("username")
     code = data.get("code")
 
-    print("llegó acá")
-
     if not username:
         return jsonify({"error": "Ingrese un nombre/apodo."}), 401
 
     if not code:
         return jsonify({"error": "Ingrese un código de sala."}), 401
 
-    print("pasó acá ibeenn")
     room = room_service.find_by_code(code)
 
     if room is None:
@@ -43,11 +40,9 @@ def join():
         "expiresAt": room.expiresAt
     })
 
-# Ruta para crear la sala (FUNCIONA BIEN)
 @room_bp.post("/create")
 def create_room():
     data = request.get_json()
-    print("acá bacán")
     username = data.get("username")
     room_name = data.get("roomName")
 
@@ -64,7 +59,6 @@ def create_room():
     session["room"] = new_room.code
     session["username"] = username
 
-    print(new_room.code, new_room.name, username, new_room.members, new_room.host, new_room.expiresAt)
     return jsonify({
         "message": "Sala creada.", 
         "room": new_room.code, 
@@ -75,8 +69,7 @@ def create_room():
         "expiresAt": new_room.expiresAt
     })
 
-# Ruta para obtener los archivos de la sala
-@room_bp.get("/room/files/<room_code>")
+@room_bp.get("/files/<room_code>")
 def show_files(room_code):
     room = room_service.find_by_code(room_code)
     if room is None:

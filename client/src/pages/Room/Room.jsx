@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { socket } from '../../services/socket';
 import api from '../../services/api';
 import './Room.css';
+import { useSession } from '../../context/SessionContext';
 
 const getExt = (f) => {
   if (f.name && f.name.includes('.')) return f.name.split('.').pop().toLowerCase();
@@ -90,8 +91,10 @@ function FileBadge({ file, big }) {
 }
 
 /* ---------- Componente ---------- */
-export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick }) {
+export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick, onLogoutClick }) {
   const { room, roomName, username, isHost, host, members, expiresAt } = roomData;
+
+  const { user, setUser } = useSession();
 
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
@@ -187,7 +190,7 @@ export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick 
 
   const fetchRoomFiles = async () => {
     try {
-      const res = await api.get(`/room/files/${room}`);
+      const res = await api.get(`/api/room/files/${room}`);
       if (res.data.files) {
         setUploadedFiles(res.data.files);
       }
@@ -257,12 +260,22 @@ export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick 
 
   return (
     <div className="room-page">
-      {/* Header global */}
-      <header className="room-topbar">
+      <header className="home-header">
         <strong className="brand-name">FlashShare 200</strong>
-        <div className="topbar-actions">
-          <button type="button" className="btn-outline" onClick={onLoginClick}>Iniciar sesión</button>
-          <button type="button" className="btn-outline" onClick={onRegisterClick}>Crear cuenta</button>
+        <div className="header-actions">
+          {user && user != null ? (<>
+            <p>{user.email}</p>
+            <button type="button" className="btn-outline" onClick={onLogoutClick}>
+              Cerrar sesión
+            </button>
+          </>) : (<>
+            <button type="button" className="btn-outline" onClick={onLoginClick}>
+              Iniciar sesión
+            </button>
+            <button type="button" className="btn-outline" onClick={onRegisterClick}>
+              Crear cuenta
+            </button>
+          </>)}
         </div>
       </header>
 

@@ -7,7 +7,7 @@ load_dotenv()
 base_dir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
-    SECRET_KEY = os.environ.get("SECRET_KEY", "dhuwdh287hda82h41")
+    SECRET_KEY = os.environ.get("SECRET_KEY")
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 

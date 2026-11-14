@@ -26,7 +26,7 @@ class RoomService:
         if not name or not host:
             raise Exception("Datos incompletos.")
         code = self.__generate_code(self.room_repository.find_all())
-        print(code, "aca el ocdigo")
+        
         room = Room(code=code, name=name, host=host, expiresAt=time.time() + 3600)
         return self.room_repository.save(room)
 

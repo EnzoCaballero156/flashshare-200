@@ -17,18 +17,14 @@ class RoomMemberService:
         if not username or not room_code:
             raise Exception("Datos incompletos.")
 
-        print(username, room_code, "aca los datos completos")
-        
         room = self.room_repository.find_by_code(room_code)
         if room is None:
             raise Exception("La sala no existe.")
 
-        print("sala si existe")
-        
         new_room_member = RoomMember(room=room, username=username)
         join_msg = Message(user=username, content="entró a la sala.", room=room)
         self.room_member_repository.save(new_room_member)
-        print("se creo el room member")
+
         return self.message_repository.save(join_msg)
 
     def leave(self, username, room_code):
