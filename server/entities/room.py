@@ -6,7 +6,7 @@ class Room(db.Model):
 
     id = db.Column(db.Text, primary_key=True, default=lambda: uuid4().hex)
 
-    code = db.Column(db.String(4), nullable=False)
+    code = db.Column(db.String(6), nullable=False)
     name = db.Column(db.String(150), nullable=False)
     host = db.Column(db.String(150), nullable=False)
     expiresAt = db.Column(db.BigInteger, nullable=False)
