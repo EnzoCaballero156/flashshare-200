@@ -13,7 +13,7 @@ class MessageService:
     def format_message(self, message, files):
         return {
             "username": message.user,
-            "content": message.content,
+            "message": message.content,
             "files": files
         }
 
