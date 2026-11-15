@@ -28,7 +28,7 @@ class CloudinaryService:
                 secure=True
             )
 
-        return url
+        return upload.get("secure_url")
 
     def clear_files(self, room):
         for tipo in ["image", "video", "raw"]:
