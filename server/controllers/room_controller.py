@@ -46,8 +46,6 @@ def create_room():
     username = data.get("username")
     room_name = data.get("roomName")
 
-    print(username, room_name)
-
     if not username:
         return jsonify({"error": "Ingrese un nombre/apodo."}), 401
     

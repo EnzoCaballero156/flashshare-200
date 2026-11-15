@@ -8,20 +8,22 @@ from repositories.room_member.room_member_repository import RoomMemberRepository
 from services.message_service import MessageService
 from services.room_member_service import RoomMemberService
 from services.room_service import RoomService
+from services.file_service import FileService
+from services.cloudinary_service import CloudinaryService
 
 from flask import session, request
 from flask_socketio import join_room, leave_room, close_room
-
-import cloudinary.api
 
 message_repository = MessageRepository()
 file_repository = FileRepository()
 room_repository = RoomRepository()
 room_member_repository = RoomMemberRepository()
 
-message_service = MessageService(message_repository, room_repository, file_repository)
-room_member_service = RoomMemberService(room_member_repository, room_repository, message_repository)
+cloudinary_service = CloudinaryService()
+message_service = MessageService(message_repository, room_repository)
+room_member_service = RoomMemberService(room_member_repository, room_repository)
 room_service = RoomService(room_repository)
+file_service = FileService(message_repository, room_repository, file_repository, cloudinary_service)
 
 # Envíos de mensajes en tiempo real vía Socket.io
 @socketio.on("message")
@@ -32,14 +34,10 @@ def message(data):
     uploaded = data.get("files", [])
 
     try:    
-        files = message_service.send(username, room, content, uploaded)
-
-        message_data = {
-            "username": username,
-            "message": content,
-            "files": files
-        }
-        
+        files_data = file_service.add_files(room, uploaded)
+        files = file_service.format_files(files_data)
+        new_message = message_service.send(username, room, content, files_data)
+        message_data = message_service.format_message(new_message, files)
         socketio.emit("message", message_data, to=room)
     except Exception as e:
         socketio.emit("error", {"error": str(e)}, to=request.sid)
@@ -51,17 +49,10 @@ def on_join(data):
     username = data.get("username")
 
     try:
-        message = room_member_service.join(username, room)
         join_room(room)
-
-        join_msg = {
-            "username": message.user,
-            "message": message.content,
-            "files": []
-        }
-
-        print(join_msg)
-
+        room_member_service.join(username, room)
+        message = message_service.send(username, room, "entró a la sala", [])
+        join_msg = message_service.format_message(message, [])
         session["room"] = room
         session["username"] = username
         socketio.emit("message", join_msg, to=room)
@@ -72,7 +63,6 @@ def on_join(data):
 def disconnect():
     room = session.get("room")
     username = session.get("username")
-
     target = room_service.find_by_code(room)
 
     if not room or target is None:
@@ -81,16 +71,12 @@ def disconnect():
         if target.host == username:
             socketio.emit("close_room", to=room, include_self=False)
             close_room(room)
-            for tipo in ["image", "video", "raw"]:
-                cloudinary.api.delete_resources_by_prefix(f"files/{room}R_", resource_type=tipo)
+            cloudinary_service.clear_files(room)
             room_service.delete(room)
         else:
-            message = room_member_service.leave(username, room)
-            leave_msg = {
-                "username": message.user,
-                "message": message.content,
-                "files": []
-            }
+            room_member_service.leave(username, room)
+            message = message_service.send(username, room, "se retiró de la sala", [])
+            leave_msg = message_service.format_message(message, [])
             socketio.emit("message", leave_msg, to=room)
             leave_room(room)
 
