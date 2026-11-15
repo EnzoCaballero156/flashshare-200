@@ -51,7 +51,7 @@ def on_join(data):
     try:
         join_room(room)
         room_member_service.join(username, room)
-        message = message_service.send(username, room, "entró a la sala", [])
+        message = message_service.send(username, room, "entró a la sala.", [])
         join_msg = message_service.format_message(message, [])
         session["room"] = room
         session["username"] = username
@@ -75,7 +75,7 @@ def disconnect():
             room_service.delete(room)
         else:
             room_member_service.leave(username, room)
-            message = message_service.send(username, room, "se retiró de la sala", [])
+            message = message_service.send(username, room, "se retiró de la sala.", [])
             leave_msg = message_service.format_message(message, [])
             socketio.emit("message", leave_msg, to=room)
             leave_room(room)
