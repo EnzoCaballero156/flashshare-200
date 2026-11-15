@@ -18,7 +18,7 @@ class MessageService:
         }
 
     def send(self, username, room_code, content, files_data):
-        if not username or not room_code or not content:
+        if not username or not room_code or (not content and not files_data):
             raise Exception("Datos incompletos.")
 
         room = self.room_repository.find_by_code(room_code)
