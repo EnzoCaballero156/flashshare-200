@@ -12,7 +12,8 @@ class CloudinaryService:
             filedata,
             public_id=safe_name,
             folder="files",
-            resource_type="auto"
+            resource_type="auto",
+            filename_override=filename
         )   
 
     def get_download_url(self, upload):
