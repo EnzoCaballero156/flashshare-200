@@ -16,19 +16,7 @@ class CloudinaryService:
         )   
 
     def get_download_url(self, upload):
-        res_type = upload.get("resource_type")
-            
-        if res_type == "raw":
-            url = upload.get("secure_url")
-        else:
-            url, _ = cloudinary.utils.cloudinary_url(
-                upload.get("public_id"),
-                resource_type=res_type,
-                flags="attachment",
-                secure=True
-            )
-
-        return upload.get("secure_url")
+        return upload.get("secure_url").replace("/upload/", "/upload/fl_attachment/", 1)
 
     def clear_files(self, room):
         for tipo in ["image", "video", "raw"]:
