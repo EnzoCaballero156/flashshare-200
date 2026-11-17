@@ -28,7 +28,9 @@ const FILTERS = [
   { id: 'word', label: 'Word' },
   { id: 'excel', label: 'Excel' },
   { id: 'ppt', label: 'PPT' },
-  { id: 'img', label: 'Imágenes' }
+  { id: 'img', label: 'Imágenes' },
+  { id: 'rar', label: 'RAR' },
+  { id: 'zip', label: 'ZIP' }
 ];
 
 const formatSize = (size) => {
@@ -466,7 +468,7 @@ export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick,
                       </div>
                     ) : (
                       <div className="file-list">
-                        {filteredFiles.map((f, i) => {
+                        {filteredFiles.toReversed().map((f, i) => {
                           const meta = [formatSize(f.size), f.username, f.time].filter(Boolean).join(' - ');
                           return (
                             <div key={i} className="file-item">
