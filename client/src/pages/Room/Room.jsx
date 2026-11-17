@@ -15,11 +15,12 @@ const getGroup = (ext) => {
   if (ext === 'pdf') return 'pdf';
   if (['ppt', 'pptx'].includes(ext)) return 'ppt';
   if (['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(ext)) return 'img';
+  if (['rar', 'zip', 'tar', '7z'].includes(ext)) return 'zip';
   return 'other';
 };
 
 const GROUP_LABEL = {
-  word: 'WORD', excel: 'EXCEL', pdf: 'PDF', ppt: 'PPT', img: 'IMAGEN', other: 'ARCHIVO'
+  word: 'WORD', excel: 'EXCEL', pdf: 'PDF', ppt: 'PPT', img: 'IMAGEN', zip: 'ZIP', other: 'ARCHIVO'
 };
 
 const FILTERS = [
@@ -29,7 +30,6 @@ const FILTERS = [
   { id: 'excel', label: 'Excel' },
   { id: 'ppt', label: 'PPT' },
   { id: 'img', label: 'Imágenes' },
-  { id: 'rar', label: 'RAR' },
   { id: 'zip', label: 'ZIP' }
 ];
 
