@@ -110,7 +110,7 @@ export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick,
   const [selectedFilter, setSelectedFilter] = useState('todos');
   const [timeLeft, setTimeLeft] = useState(expiresAt ? Math.max(0, Math.floor(expiresAt - (Date.now() / 1000))) : 3600);
 
-  const [showSidebar, setShowSidebar] = useState(true);
+  const [showSidebar, setShowSidebar] = useState(false);
   const [showCode, setShowCode] = useState(false);
   const [showCloseModal, setShowCloseModal] = useState(false);
 
