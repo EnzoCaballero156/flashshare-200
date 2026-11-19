@@ -5,7 +5,7 @@
   color: #fff;
   background-color: #020812;
   background: 
-    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+    linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), 
     url('../../img/background.png') center / cover no-repeat fixed;
   background-attachment: fixed;
 }
@@ -49,9 +49,9 @@
 
 .auth-btn-outline {
   padding: 9px 22px;
-  border: 1px solid #1f6bff;
+  border: 1px solid #9B9B9B;
   border-radius: 999px;
-  background: rgba(0, 40, 120, 0.35);
+  background: transparent;
   color: #fff;
   font-size: 1rem;
   cursor: pointer;

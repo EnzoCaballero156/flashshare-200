@@ -5,7 +5,7 @@
   color: #fff;
   background-color: #020812;
   background: 
-    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+    linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), 
     url('../../img/background.png') center / cover no-repeat fixed;
   background-attachment: fixed;
 }
@@ -44,8 +44,8 @@
 .btn-outline {
   padding: 9px 22px;
   border-radius: 999px;
-  border: 1px solid #1f6bff;
-  background: rgba(0, 40, 120, 0.35);
+  border: 1px solid #9B9B9B;
+  background: transparent;
   color: #fff;
   font-size: 1rem;
   cursor: pointer;
@@ -182,10 +182,10 @@
   min-width: 0;
   padding: 0;
   height: 44px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid #919191;
   border-radius: 8px;
-  background: #fff;
-  color: #111827;
+  background: #11273B;
+  color: #fff;
   text-align: center;
   font-size: 1.25rem;
   font-weight: 700;

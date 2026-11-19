@@ -7,7 +7,7 @@
   color: #fff;
   background-color: #020812;
   background: 
-    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+    linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), 
     url('../../img/background.png') center / cover no-repeat fixed;
 }
 
@@ -57,8 +57,8 @@
 .btn-outline {
   padding: 8px 20px;
   border-radius: 999px;
-  border: 1px solid #1f6bff;
-  background: rgba(0, 40, 120, 0.35);
+  border: 1px solid #9B9B9B;
+  background: transparent;
   color: #fff;
   font-size: 0.95rem;
   cursor: pointer;
