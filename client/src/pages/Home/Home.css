@@ -3,10 +3,9 @@
   min-height: 100vh;
   width: 100%;
   color: #fff;
-  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
   background-color: #020812;
   background: 
-    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
     url('../../img/background.png') center / cover no-repeat fixed;
   background-attachment: fixed;
 }
@@ -54,8 +53,8 @@
 }
 
 .btn-outline:hover {
-  background: rgba(31, 107, 255, 0.45);
-  border-color: #5b95ff;
+  background: #024B89;
+  border-color: #9B9B9B;
 }
 
 /* ============ Contenedor ============ */
@@ -107,7 +106,7 @@
   display: flex;
   flex-direction: column;
   padding: 22px 28px 26px;
-  border: 1px solid #1565ff;
+  border: 1px solid #919191;
   border-radius: 22px;
   background: linear-gradient(160deg, rgba(255, 255, 255, 0.14), rgba(10, 25, 50, 0.6));
   backdrop-filter: blur(14px);
@@ -151,21 +150,21 @@
   height: 44px;
   padding: 0 16px;
   margin-bottom: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid #919191;
   border-radius: 8px;
-  background: #fff;
-  color: #111827;
+  background: #11273B;
+  color: #fff;
   font-size: 1rem;
   outline: none;
 }
 
 .text-input::placeholder {
-  color: #7b8494;
+  color: #919191;
 }
 
 .text-input:focus,
 .code-box:focus {
-  border-color: #1f6bff;
+  border-color: #919191;
   box-shadow: 0 0 0 3px rgba(31, 107, 255, 0.35);
 }
 
