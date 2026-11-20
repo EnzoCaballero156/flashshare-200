@@ -44,7 +44,6 @@ const formatSize = (size) => {
 const nowTime = () =>
   new Date().toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
 
-/* ---------- Iconos ---------- */
 const Svg = ({ children, size = 20 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
     strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -92,7 +91,6 @@ function FileBadge({ file, big }) {
   );
 }
 
-/* ---------- Componente ---------- */
 export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick, onLogoutClick }) {
   const { room, roomName, username, isHost, host, members, expiresAt } = roomData;
 
@@ -117,7 +115,6 @@ export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick,
   const fileInputRef = useRef(null);
   const messagesEndRef = useRef(null);
 
-  // Temporizador regresivo
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
@@ -180,7 +177,6 @@ export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick,
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Cerrar el aviso con Escape
   useEffect(() => {
     if (!showCloseModal) return;
     const onKey = (e) => {
@@ -283,7 +279,6 @@ export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick,
 
       <main className="room-shell">
         <section className="room-card">
-          {/* Barra de la sala */}
           <div className="room-bar">
             <div className="room-id">
               <h2 className="room-title">{roomName}</h2>
@@ -334,7 +329,6 @@ export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick,
             </div>
           </div>
 
-          {/* Chat + panel lateral */}
           <div className={`workspace-grid ${showSidebar ? 'open' : 'closed'}`}>
             <div className="chat-panel">
               <div className="messages-container">
@@ -415,7 +409,6 @@ export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick,
               </form>
             </div>
 
-            {/* Panel lateral */}
             <aside className="sidebar-panel" aria-hidden={!showSidebar}>
               <div className="sidebar-inner">
                 <div className="sidebar-tabs">
@@ -519,7 +512,6 @@ export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick,
         </section>
       </main>
 
-      {/* Aviso de cierre */}
       {showCloseModal && (
         <div className="modal-overlay" onClick={() => setShowCloseModal(false)}>
           <div

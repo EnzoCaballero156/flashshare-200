@@ -28,7 +28,7 @@ const Register = ({ onLoginClick }) => {
     return (
         <div className="auth-page">
             <header className="home-header">
-                <strong className="brand-name">FlashShare 200</strong>
+                <strong className="brand-name">MilliSend</strong>
                 <div className="header-actions">
                     <button type="button" className="btn-outline" onClick={onLoginClick}>
                         Iniciar sesión
@@ -42,7 +42,7 @@ const Register = ({ onLoginClick }) => {
             <main className="auth-main">
                 <section className="auth-card">
                     <h1 className="auth-title">Regístrate</h1>
-                    <p className="auth-desc">Crea tu cuenta de FlashShare 200.</p>
+                    <p className="auth-desc">Crea tu cuenta de MilliSend.</p>
 
                     {errorMsg && <div className="auth-error">{errorMsg}</div>}
 
