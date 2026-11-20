@@ -27,13 +27,13 @@ const Register = ({ onLoginClick }) => {
 
     return (
         <div className="auth-page">
-            <header className="auth-header">
-                <strong className="auth-brand">FlashShare 200</strong>
-                <div className="auth-header-actions">
-                    <button type="button" className="auth-btn-outline" onClick={onLoginClick}>
+            <header className="home-header">
+                <strong className="brand-name">FlashShare 200</strong>
+                <div className="header-actions">
+                    <button type="button" className="btn-outline" onClick={onLoginClick}>
                         Iniciar sesión
                     </button>
-                    <button type="button" className="auth-btn-outline active" aria-current="page">
+                    <button type="button" className="btn-outline active" aria-current="page">
                         Crear cuenta
                     </button>
                 </div>
@@ -47,10 +47,10 @@ const Register = ({ onLoginClick }) => {
                     {errorMsg && <div className="auth-error">{errorMsg}</div>}
 
                     <form onSubmit={autenticar}>
-                        <label className="auth-label" htmlFor="register-email">Email</label>
+                        <label className="input-label" htmlFor="register-email">Email</label>
                         <input
                             id="register-email"
-                            className="auth-input"
+                            className="text-input"
                             type="email"
                             placeholder="correo@ejemplo.com"
                             autoComplete="email"
@@ -59,10 +59,10 @@ const Register = ({ onLoginClick }) => {
                             required
                         />
 
-                        <label className="auth-label" htmlFor="register-password">Contraseña</label>
+                        <label className="input-label" htmlFor="register-password">Contraseña</label>
                         <input
                             id="register-password"
-                            className="auth-input"
+                            className="text-input"
                             type="password"
                             placeholder="Crea una contraseña"
                             autoComplete="new-password"
@@ -71,7 +71,7 @@ const Register = ({ onLoginClick }) => {
                             required
                         />
 
-                        <button type="submit" className="auth-submit" disabled={loading}>
+                        <button type="submit" className="btn-primary auth-submit" disabled={loading}>
                             {loading ? "Registrando..." : "Registrarse"}
                         </button>
                     </form>

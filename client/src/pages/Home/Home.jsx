@@ -241,7 +241,7 @@ export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick, onL
         </div>
 
         <footer className="home-footer">
-          FlashShare 200 | 2026
+          MilliSend | 2026
         </footer>
       </div>
     </div>

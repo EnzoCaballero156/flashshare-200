@@ -27,13 +27,13 @@ const Login = ({ onRegisterClick }) => {
 
     return (
         <div className="auth-page">
-            <header className="auth-header">
-                <strong className="auth-brand">FlashShare 200</strong>
-                <div className="auth-header-actions">
-                    <button type="button" className="auth-btn-outline active" aria-current="page">
+            <header className="home-header">
+                <strong className="brand-name">MilliSend</strong>
+                <div className="header-actions">
+                    <button type="button" className="btn-outline active" aria-current="page">
                         Iniciar sesión
                     </button>
-                    <button type="button" className="auth-btn-outline" onClick={onRegisterClick}>
+                    <button type="button" className="btn-outline" onClick={onRegisterClick}>
                         Crear cuenta
                     </button>
                 </div>
@@ -42,15 +42,15 @@ const Login = ({ onRegisterClick }) => {
             <main className="auth-main">
                 <section className="auth-card">
                     <h1 className="auth-title">Inicia sesión</h1>
-                    <p className="auth-desc">Accede a tu cuenta de FlashShare 200.</p>
+                    <p className="auth-desc">Accede a tu cuenta de MilliSend.</p>
 
                     {errorMsg && <div className="auth-error">{errorMsg}</div>}
 
                     <form onSubmit={autenticar}>
-                        <label className="auth-label" htmlFor="login-email">Email</label>
+                        <label className="input-label" htmlFor="login-email">Email</label>
                         <input
                             id="login-email"
-                            className="auth-input"
+                            className="text-input"
                             type="email"
                             placeholder="correo@ejemplo.com"
                             autoComplete="email"
@@ -59,10 +59,10 @@ const Login = ({ onRegisterClick }) => {
                             required
                         />
 
-                        <label className="auth-label" htmlFor="login-password">Contraseña</label>
+                        <label className="input-label" htmlFor="login-password">Contraseña</label>
                         <input
                             id="login-password"
-                            className="auth-input"
+                            className="text-input"
                             type="password"
                             placeholder="Tu contraseña"
                             autoComplete="current-password"
@@ -71,7 +71,7 @@ const Login = ({ onRegisterClick }) => {
                             required
                         />
 
-                        <button type="submit" className="auth-submit" disabled={loading}>
+                        <button type="submit" className="btn-primary auth-submit" disabled={loading}>
                             {loading ? "Ingresando..." : "Ingresar"}
                         </button>
                     </form>
