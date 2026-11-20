@@ -259,7 +259,7 @@ export default function Room({ roomData, onLeave, onLoginClick, onRegisterClick,
   return (
     <div className="room-page">
       <header className="home-header">
-        <strong className="brand-name">MilliSend</strong>
+        <Logo/>
         <div className="header-actions">
           {user && user != null ? (<>
             <p>{user.email}</p>

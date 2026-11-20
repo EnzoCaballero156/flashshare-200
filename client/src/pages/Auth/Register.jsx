@@ -28,7 +28,7 @@ const Register = ({ onLoginClick }) => {
     return (
         <div className="auth-page">
             <header className="home-header">
-                <strong className="brand-name">MilliSend</strong>
+                <Logo/>
                 <div className="header-actions">
                     <button type="button" className="btn-outline" onClick={onLoginClick}>
                         Iniciar sesión

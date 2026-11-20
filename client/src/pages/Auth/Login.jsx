@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "../../services/api";
 import "./Auth.css";
+import Logo from "../../components/Logo";
 
 const Login = ({ onRegisterClick }) => {
     const [email, setEmail] = useState("");
@@ -28,7 +29,7 @@ const Login = ({ onRegisterClick }) => {
     return (
         <div className="auth-page">
             <header className="home-header">
-                <strong className="brand-name">MilliSend</strong>
+                <Logo/>
                 <div className="header-actions">
                     <button type="button" className="btn-outline active" aria-current="page">
                         Iniciar sesión
