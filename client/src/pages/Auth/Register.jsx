@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "../../services/api";
 import "./Auth.css";
+import Logo from "../../components/Logo";
 
 const Register = ({ onLoginClick }) => {
     const [email, setEmail] = useState("");

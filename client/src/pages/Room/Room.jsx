@@ -3,6 +3,7 @@ import { socket } from '../../services/socket';
 import api from '../../services/api';
 import './Room.css';
 import { useSession } from '../../context/SessionContext';
+import Logo from "../../components/Logo";
 
 const getExt = (f) => {
   if (f.name && f.name.includes('.')) return f.name.split('.').pop().toLowerCase();

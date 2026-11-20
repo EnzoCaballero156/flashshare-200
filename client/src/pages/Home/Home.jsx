@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import api from '../../services/api';
 import './Home.css';
 import { useSession } from '../../context/SessionContext';
+import Logo from "../../components/Logo";
 
 export default function Home({ onJoinSuccess, onLoginClick, onRegisterClick, onLogoutClick }) {
   const { user, setUser } = useSession()
